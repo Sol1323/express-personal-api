@@ -37,6 +37,16 @@ app.get('/', function homepage(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+app.get('/api/profile', function profile_show(req, res){
+  res.json({
+    name: "Sol",
+    class: "WDI 33",
+    location: "San Francisco, CA",
+    hobbies: ["arts", "swimming"],
+    github_url: "https://www.github.com/Sol1323",
+    portfolio_url: "https://www.github.com/Sol1323/Sol1323.github.io",
+    favorite_iceCream: "Chocolate"
+  });
 
 /*
  * JSON API Endpoints
@@ -45,17 +55,20 @@ app.get('/', function homepage(req, res) {
 app.get('/api', function api_index(req, res) {
   // TODO: Document all your api endpoints below
   res.json({
-    woopsIForgotToDocumentAllMyEndpoints: true, // CHANGE ME ;)
+    woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
     message: "Welcome to my personal api! Here's what you need to know!",
-    documentationUrl: "https://github.com/example-username/express_self_api/README.md", // CHANGE ME
-    baseUrl: "http://YOUR-APP-NAME.herokuapp.com", // CHANGE ME
+    documentationUrl: "https://github.com/Sol1323/express-personal-api/README.md", // CHANGE ME
+    baseUrl: "http://aqueous-bayou-93408.herokuapp.com", // CHANGE ME
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "Data about me"}, // CHANGE ME
-      {method: "POST", path: "/api/campsites", description: "E.g. Create a new campsite"} // CHANGE ME
+      {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
+      {method: "GET", path: "/api/artist", description: "Get all artist"} // CHANGE ME
+      {method: "GET", path: "/api/artworks", description: "Get all artworks"} // CHANGE ME
     ]
   })
 });
+
+
 
 /**********
  * SERVER *
