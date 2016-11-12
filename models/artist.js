@@ -9,14 +9,11 @@ var mongoose = require('mongoose'),
 
 var ArtistSchema = new Schema({
      name: String,
-     bio: String,
      origin: String,
-     isAlive: String,
+     isAlive: Boolean,
      image: String,
-     artworks: {type: Schema.Types.ObjectId, ref: 'Artworks'},
-
-
-
+     website: String,
+     artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'}
     //  characters: [CharacterSchema]
 });
 

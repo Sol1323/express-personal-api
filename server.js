@@ -63,7 +63,7 @@ app.get('/api', function api_index(req, res) {
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
       {method: "GET", path: "/api/artist", description: "Get all artist"} // CHANGE ME
-      {method: "GET", path: "/api/artworks", description: "Get all artworks"} // CHANGE ME
+      {method: "GET", path: "/api/artwork", description: } // CHANGE ME
     ]
   })
 });
