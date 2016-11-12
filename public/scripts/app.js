@@ -96,6 +96,7 @@ function deleteArtistSuccess(json) {
 function deleteArtistError() {
   console.log('deleteartist error!');
 }
+  });
 
 // function newCharacterSuccess(json) {
 //   var book = json;
@@ -107,8 +108,8 @@ function deleteArtistError() {
 //       break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
 //     }
   // }
-  render();
-}
+//   render();
+// }
 //
 // function newCharacterError() {
 //   console.log('adding new character error!');

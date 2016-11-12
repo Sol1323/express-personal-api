@@ -20,7 +20,7 @@
   <body>
 
     <div class="container">
-    <h1 class="text-center">Books App</h1>
+    <h1 class="text-center">Art App</h1>
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <form class="form-inline" id="newArtistForm">
@@ -51,9 +51,10 @@
               <!-- <b>Characters:</b>
               {{#each characters}}
                 {{name}} -->
-              {{/each}}
+
               <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-id={{_id}}>Delete</button>
             </p>
+            {{/each}}
             <!-- <form class="form-inline" id="addCharacterForm" data-id={{_id}}>
               <div class="form-group">
                 <input type="text" class="form-control" name="name" placeholder="Book character">
