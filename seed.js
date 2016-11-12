@@ -96,3 +96,45 @@ var artwork_list = [
     link: "http://www.annhamiltonstudio.com/projects/ghostaborderact.html"
   }
 ];
+
+db.Artwork.remove({}, function(err, artworks) {
+  console.log('removed all artworks');
+  db.Artwork.create(artwork_list, function(err, artworks){
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log('recreated all artworks');
+    console.log("created", artworks.length, "artworks");
+
+
+    db.Artist.remove({}, function(err, artist){
+      console.log('removed all artists');
+    artist_list.forEach(function (artistData) {
+        var artist = new db.Artist({
+          name: String,
+          origin: String,
+          isAlive: Boolean,
+          image: String,
+          website: String,
+          artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'}
+        });
+        db.Artwork.findOne({name: artistData.artwork}, function (err, foundArtwork) {
+          console.log('found artwork ' + foundArtwork.title + ' for Artist ' + artist.name);
+          if (err) {
+            console.log(err);
+            return;
+          }
+          artist.artwork = foundArtwork;
+          artist.save(function(err, savedArtist){
+            if (err) {
+              return console.log(err);
+            }
+            console.log('saved ' + savedArtist.name + 'made' + foundArtwork.title);
+          });
+        });
+      });
+    });
+
+  });
+});
