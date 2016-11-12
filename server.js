@@ -29,6 +29,9 @@ app.use(function(req, res, next) {
 // i.e. `/images`, `/scripts`, `/styles`
 app.use(express.static('public'));
 
+// body parser config to accept our datatypes
+app.use(bodyParser.urlencoded({ extended: true }));
+
 /*
  * HTML Endpoints
  */
@@ -62,12 +65,73 @@ app.get('/api', function api_index(req, res) {
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
-      {method: "GET", path: "/api/artist", description: "Get all artist"} // CHANGE ME
-      {method: "GET", path: "/api/artwork", description: } // CHANGE ME
+      {method: "GET", path: "/api/artists", description: "Get all artist"} // CHANGE ME
+      {method: "GET", path: "/api/artworks", description: } // CHANGE ME
     ]
   })
 });
 
+// get all artists
+app.get('/api/artists', function (req, res) {
+  // send all artists as JSON response
+  db.Artist.find().populate('artist')
+    .exec(function(err, artist) {
+      if (err) { return console.log("index error: " + err); }
+      res.json(artist);
+  });
+});
+
+// get one artist
+app.get('/api/artist/:id', function (req, res) {
+  db.Artist.findOne({_id: req.params._id }, function(err, data) {
+    res.json(data);
+  });
+});
+
+// create new artist
+app.post('/api/artist', function (req, res) {
+  // create new book with form data (`req.body`)
+  var newArtist = new db.Artist({
+    name: String,
+    origin: String,
+    isAlive: Boolean,
+    image: String,
+    website: String,
+    artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'}
+  });
+
+
+  // find the artwork from req.body
+  db.Artwork.findOne({name: req.body.artwork}, function(err, artwork){
+    if (err) {
+      return console.log(err);
+    }
+    // add this author to the book
+    newArtist.artwork = artwork;
+
+
+    // save newArtist to database
+    newArtist.save(function(err, artist){
+      if (err) {
+        return console.log("save error: " + err);
+      }
+      console.log("saved ", artist.name);
+      // send back the book!
+      res.json(artist);
+    });
+  });
+});
+
+// delete artist
+app.delete('/api/artists/:id', function (req, res) {
+  // get book id from url params (`req.params`)
+  console.log('artists delete', req.params);
+  var artistId = req.params.id;
+  // find the index of the book we want to remove
+  db.Book.findOneAndRemove({ _id: artistId }, function (err, deletedArtist) {
+    res.json(deletedArtist);
+  });
+});
 
 
 /**********
