@@ -1,19 +1,28 @@
 // require express and other modules
+//require express in our app
 var express = require('express'),
-    app = express();
+  bodyParser = require('body-parser');
 
-// parse incoming urlencoded form data
-// and populate the req.body object
-var bodyParser = require('body-parser');
+// connect to db models
+var db = require('./models');
+
+// generate a new express app and call it 'app'
+var app = express();
+
+// serve static files in public
+app.use(express.static('public'));
+
+// body parser config to accept our datatypes
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // allow cross origin requests (optional)
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 /************
  * DATABASE *
@@ -25,84 +34,85 @@ app.use(function(req, res, next) {
  * ROUTES *
  **********/
 
-// Serve static files from the `/public` directory:
-// i.e. `/images`, `/scripts`, `/styles`
-app.use(express.static('public'));
-
-// body parser config to accept our datatypes
-app.use(bodyParser.urlencoded({ extended: true }));
+// // Serve static files from the `/public` directory:
+// // i.e. `/images`, `/scripts`, `/styles`
+// app.use(express.static('public'));
+//
+// // body parser config to accept our datatypes
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
  * HTML Endpoints
  */
+ app.get('/', function (req, res) {
+   res.sendFile('views/index.html' , { root : __dirname});
+ });
+// app.get('/', function homepage(req, res) {
+//   res.sendFile(__dirname + '/views/index.html');
+// });
 
-app.get('/', function homepage(req, res) {
-  res.sendFile(__dirname + '/views/index.html');
-});
-
-app.get('/api/profile', function profile_show(req, res){
-  res.json({
-    name: "Sol",
-    class: "WDI 33",
-    location: "San Francisco, CA",
-    hobbies: ["arts", "swimming"],
-    github_url: "https://www.github.com/Sol1323",
-    portfolio_url: "https://www.github.com/Sol1323/Sol1323.github.io",
-    favorite_iceCream: "Chocolate"
-  });
+// app.get('/api/profile', function profile_show(req, res){
+//   res.json({
+//     name: "Sol",
+//     class: "WDI 33",
+//     location: "San Francisco, CA",
+//     hobbies: ["arts", "swimming"],
+//     github_url: "https://www.github.com/Sol1323",
+//     portfolio_url: "https://www.github.com/Sol1323/Sol1323.github.io",
+//     favorite_iceCream: "Chocolate"
+//   });
 
 /*
  * JSON API Endpoints
  */
 
-app.get('/api', function api_index(req, res) {
-  // TODO: Document all your api endpoints below
-  res.json({
-    woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
-    message: "Welcome to my personal api! Here's what you need to know!",
-    documentationUrl: "https://github.com/Sol1323/express-personal-api/README.md", // CHANGE ME
-    baseUrl: "http://aqueous-bayou-93408.herokuapp.com", // CHANGE ME
-    endpoints: [
-      {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
-      {method: "GET", path: "/api/artists", description: "Get all artist"} // CHANGE ME
-      {method: "GET", path: "/api/artworks", description: } // CHANGE ME
-    ]
-  })
-});
+// app.get('/api', function api_index(req, res) {
+//   // TODO: Document all your api endpoints below
+//   res.json({
+//     woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
+//     message: "Welcome to my personal api! Here's what you need to know!",
+//     documentationUrl: "https://github.com/Sol1323/express-personal-api/README.md", // CHANGE ME
+//     baseUrl: "http://aqueous-bayou-93408.herokuapp.com", // CHANGE ME
+//     endpoints: [
+//       {method: "GET", path: "/api", description: "Describes all available endpoints"},
+//       {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
+//       {method: "GET", path: "/api/artists", description: "Get all artist"} // CHANGE ME
+//       {method: "GET", path: "/api/artworks", description: } // CHANGE ME
+//     ]
+//   })
+// });
 
 // get all artists
 app.get('/api/artists', function (req, res) {
   // send all artists as JSON response
   db.Artist.find().populate('artist')
-    .exec(function(err, artist) {
+    .exec(function(err, artists) {
       if (err) { return console.log("index error: " + err); }
-      res.json(artist);
+      res.json(artists);
   });
 });
 
 // get one artist
-app.get('/api/artist/:id', function (req, res) {
-  db.Artist.findOne({_id: req.params._id }, function(err, data) {
+app.get('/api/artists/:id', function (req, res) {
+  db.Artists.findOne({_id: req.params._id }, function(err, data) {
     res.json(data);
   });
 });
 
 // create new artist
-app.post('/api/artist', function (req, res) {
+app.post('/api/artists', function (req, res) {
   // create new book with form data (`req.body`)
   var newArtist = new db.Artist({
-    name: String,
-    origin: String,
-    isAlive: Boolean,
-    image: String,
-    website: String,
-    artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'}
+    name: req.body.name,
+    origin: req.body.origin,
+    isAlive: req.body.isAlive,
+    image: req.body.image,
+    website: req.body.website
   });
 
 
   // find the artwork from req.body
-  db.Artwork.findOne({name: req.body.artwork}, function(err, artwork){
+  db.Artwork.findOne({title: req.body.artwork}, function(err, artwork){
     if (err) {
       return console.log(err);
     }

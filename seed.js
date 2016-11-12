@@ -16,14 +16,14 @@
 
 var db = require('./models');
 
-var artist_list = [
+var artists_list = [
   {
   name: "Pipilotti Rist",
   origin: "June 21, 1962, Grabs, Switzerland",
   isAlive: true,
   image: "https://s-media-cache-ak0.pinimg.com/originals/ac/ad/6f/acad6fa7136b0cfed2e1d10ddb4d6be4.jpg",
   website: "http://pipilottirist.net/",
-  artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'},
+  artwork: "Ever is Over All"
   },
   {
     name: "Bill Viola",
@@ -31,7 +31,7 @@ var artist_list = [
     isAlive: true,
     image: "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwjUluOpo6LQAhWGjFQKHd6XCc0QjRwIBw&url=http%3A%2F%2Fwww.jamescohan.com%2Fartists%2Fbill-viola&psig=AFQjCNEjKH8Dm32oJu-VQRTcZhCWpcl7fA&ust=1479007722533987",
     website: "http://www.billviola.com/",
-    artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'},
+    artwork: "Ascension"
   },
   {
     name: "Dhara Rivera",
@@ -39,7 +39,7 @@ var artist_list = [
     isAlive: true,
     image: "http://www.artnet.com/Magazine/people/mendelsohn/Images/mendelsohn9-20-4.jpg",
     website: "http://www.dhararivera.com/",
-    artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'},
+    artwork: "Cosiendo Agua"
   },
   {
     name: "Lee Bontecou",
@@ -47,7 +47,7 @@ var artist_list = [
     isAlive: true,
     image: "http://1.bp.blogspot.com/_I5F4U2tYwmk/TF7v-35Vj0I/AAAAAAAACpo/4XNknWYpOUM/w1200-h630-p-nu/Studio+Wooster+ST+1963+Namuth.jpg",
     website: "https://www.moma.org/artists/670",
-    artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'},
+    artwork: "Untitled"
   },
   {
     name: "Ann Hamilton",
@@ -55,11 +55,11 @@ var artist_list = [
     isAlive: true,
     image: "http://www.annhamiltonstudio.com/images/projects/still_life/j%20simon-63-still%20life.jpg",
     website: "http://www.annhamiltonstudio.com/",
-    artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'},
+    artwork: "ghost... a border act"
   }
 ];
 
-var artwork_list = [
+var artworks_list = [
   {
     title: "Ever is Over All",
     medium: "Audio video installation",
@@ -99,7 +99,7 @@ var artwork_list = [
 
 db.Artwork.remove({}, function(err, artworks) {
   console.log('removed all artworks');
-  db.Artwork.create(artwork_list, function(err, artworks){
+  db.Artwork.create(artworks_list, function(err, artworks){
     if (err) {
       console.log(err);
       return;
@@ -110,17 +110,16 @@ db.Artwork.remove({}, function(err, artworks) {
 
     db.Artist.remove({}, function(err, artist){
       console.log('removed all artists');
-    artist_list.forEach(function (artistData) {
+    artists_list.forEach(function (artistData) {
         var artist = new db.Artist({
-          name: String,
-          origin: String,
-          isAlive: Boolean,
-          image: String,
-          website: String,
-          artwork: {type: Schema.Types.ObjectId, ref: 'Artwork'}
+          name: artistData.name,
+          origin: artistData.origin,
+          isAlive: artistData.isAlive,
+          image: artistData.image,
+          website: artistData.website
         });
-        db.Artwork.findOne({name: artistData.artwork}, function (err, foundArtwork) {
-          console.log('found artwork ' + foundArtwork.title + ' for Artist ' + artist.name);
+        db.Artwork.findOne({title: artistData.artwork}, function (err, foundArtwork) {
+          console.log('found artwork ' + foundArtwork.title + ' for artist ' + artist.name);
           if (err) {
             console.log(err);
             return;
@@ -130,7 +129,7 @@ db.Artwork.remove({}, function(err, artworks) {
             if (err) {
               return console.log(err);
             }
-            console.log('saved ' + savedArtist.name + 'made' + foundArtwork.title);
+            console.log('saved ' + savedArtist.name + 'created' + foundArtwork.title);
           });
         });
       });

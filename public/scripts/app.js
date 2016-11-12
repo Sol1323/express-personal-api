@@ -41,9 +41,9 @@ $(document).ready(function(){
   });
 
 //WATCH HERE THE CLOSING
-  });
-
-});
+//   });
+//
+// });
 
 // helper function to render all posts to view
 // note: we empty and re-render the collection each time our post data changes
@@ -75,7 +75,7 @@ function newBookSuccess(json) {
 }
 
 function newArtistError() {
-  console.log('newArtist error!');
+  console.log('newartist error!');
 }
 
 function deleteArtistSuccess(json) {
@@ -85,7 +85,7 @@ function deleteArtistSuccess(json) {
   console.log('delete artist', artistId);
   // find the artist with the correct ID and remove it from our allBooks array
   for(var index = 0; index < allartists.length; index++) {
-    if(allartists[index]._id === artistId) {
+    if(allArtists[index]._id === artistId) {
       allArtists.splice(index, 1);
       break;  // we found our artist - no reason to keep searching (this is why we didn't use forEach)
     }

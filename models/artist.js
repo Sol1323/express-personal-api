@@ -1,6 +1,6 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
-  artwork = require('./artworks');
+  Artwork = require('./artwork');
 
   // var CharacterSchema = new Schema({
   //   name: String
