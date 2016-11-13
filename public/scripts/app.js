@@ -1,4 +1,4 @@
-console.log("Sanity Check: JS is working!");
+
 var template;
 var $artistsList;
 var allArtists = [];
@@ -96,7 +96,7 @@ function deleteArtistSuccess(json) {
 function deleteArtistError() {
   console.log('deleteartist error!');
 }
-  });
+});
 
 // function newCharacterSuccess(json) {
 //   var book = json;
