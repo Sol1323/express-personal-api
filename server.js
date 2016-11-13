@@ -85,7 +85,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // get all artists
 app.get('/api/artists', function (req, res) {
   // send all artists as JSON response
-  db.Artist.find().populate('artist')
+  db.Artist.find().populate('artwork')
     .exec(function(err, artists) {
       if (err) { return console.log("index error: " + err); }
       res.json(artists);
@@ -104,6 +104,7 @@ app.post('/api/artists', function (req, res) {
   // create new book with form data (`req.body`)
   var newArtist = new db.Artist({
     name: req.body.name,
+    // artwork: req.body.artwork,
     origin: req.body.origin,
     isAlive: req.body.isAlive,
     image: req.body.image,

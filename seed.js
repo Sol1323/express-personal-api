@@ -19,43 +19,48 @@ var db = require('./models');
 var artists_list = [
   {
   name: "Pipilotti Rist",
+  artwork: "Ever is Over All",
   origin: "June 21, 1962, Grabs, Switzerland",
   isAlive: true,
   image: "https://s-media-cache-ak0.pinimg.com/originals/ac/ad/6f/acad6fa7136b0cfed2e1d10ddb4d6be4.jpg",
-  website: "http://pipilottirist.net/",
-  artwork: "Ever is Over All"
+  website: "http://pipilottirist.net/"
+
   },
   {
     name: "Bill Viola",
+    artwork: "Ascension",
     origin: "January 25, 1951, Queens, New York City, NY",
     isAlive: true,
     image: "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwjUluOpo6LQAhWGjFQKHd6XCc0QjRwIBw&url=http%3A%2F%2Fwww.jamescohan.com%2Fartists%2Fbill-viola&psig=AFQjCNEjKH8Dm32oJu-VQRTcZhCWpcl7fA&ust=1479007722533987",
-    website: "http://www.billviola.com/",
-    artwork: "Ascension"
+    website: "http://www.billviola.com/"
+
   },
   {
     name: "Dhara Rivera",
+    artwork: "Cosiendo Agua",
     origin: "1952, Vega Baja, Puerto Rico",
     isAlive: true,
     image: "http://www.artnet.com/Magazine/people/mendelsohn/Images/mendelsohn9-20-4.jpg",
-    website: "http://www.dhararivera.com/",
-    artwork: "Cosiendo Agua"
+    website: "http://www.dhararivera.com/"
+
   },
   {
     name: "Lee Bontecou",
+    artwork: "Untitled",
     origin: "January 15, 1931,Providence, Rhode Island",
     isAlive: true,
     image: "http://1.bp.blogspot.com/_I5F4U2tYwmk/TF7v-35Vj0I/AAAAAAAACpo/4XNknWYpOUM/w1200-h630-p-nu/Studio+Wooster+ST+1963+Namuth.jpg",
-    website: "https://www.moma.org/artists/670",
-    artwork: "Untitled"
+    website: "https://www.moma.org/artists/670"
+
   },
   {
     name: "Ann Hamilton",
+    artwork: "ghost... a border act",
     origin: " 1956, Lima, Ohio",
     isAlive: true,
     image: "http://www.annhamiltonstudio.com/images/projects/still_life/j%20simon-63-still%20life.jpg",
-    website: "http://www.annhamiltonstudio.com/",
-    artwork: "ghost... a border act"
+    website: "http://www.annhamiltonstudio.com/"
+
   }
 ];
 
