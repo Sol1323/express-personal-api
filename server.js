@@ -104,7 +104,6 @@ app.post('/api/artists', function (req, res) {
   // create new book with form data (`req.body`)
   var newArtist = new db.Artist({
     name: req.body.name,
-    // artwork: req.body.artwork,
     origin: req.body.origin,
     isAlive: req.body.isAlive,
     image: req.body.image,
@@ -114,7 +113,9 @@ app.post('/api/artists', function (req, res) {
 
   // find the artwork from req.body
   db.Artwork.findOne({title: req.body.artwork}, function(err, artwork){
-    if (err) {
+    if (artwork === null) {
+      var artwork = new db.Artwork({title: req.body.artwork});
+      artwork.save();
       return console.log(err);
     }
     // add this author to the book

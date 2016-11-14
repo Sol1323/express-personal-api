@@ -51,7 +51,7 @@ function render () {
   // empty existing posts from view
   $artistsList.empty();
 
-  // pass `allBooks` into the template function
+  // pass `allArtist` into the template function
   var artistsHtml = template({ artists: allArtists});
 
   // append html to the view
@@ -68,11 +68,13 @@ function handleError(e) {
   $('#artistTarget').text('Failed to load artists, is the server working?');
 }
 
-function newBookSuccess(json) {
+function newArtistSuccess(json) {
   $('#newArtistForm input').val('');
   allArtists.push(json);
   render();
+  
 }
+
 
 function newArtistError() {
   console.log('newartist error!');
