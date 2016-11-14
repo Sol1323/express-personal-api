@@ -3,8 +3,6 @@
 var express = require('express'),
   bodyParser = require('body-parser');
 
-// connect to db models
-var db = require('./models');
 
 // generate a new express app and call it 'app'
 var app = express();
@@ -28,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * DATABASE *
  ************/
 
-// var db = require('./models');
+var db = require('./models');
 
 /**********
  * ROUTES *
@@ -36,10 +34,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // // Serve static files from the `/public` directory:
 // // i.e. `/images`, `/scripts`, `/styles`
-// app.use(express.static('public'));
+app.use(express.static('public'));
 //
-// // body parser config to accept our datatypes
-// app.use(bodyParser.urlencoded({ extended: true }));
+// // // body parser config to accept our datatypes
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /*
  * HTML Endpoints
@@ -51,36 +49,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //   res.sendFile(__dirname + '/views/index.html');
 // });
 
-// app.get('/api/profile', function profile_show(req, res){
-//   res.json({
-//     name: "Sol",
-//     class: "WDI 33",
-//     location: "San Francisco, CA",
-//     hobbies: ["arts", "swimming"],
-//     github_url: "https://www.github.com/Sol1323",
-//     portfolio_url: "https://www.github.com/Sol1323/Sol1323.github.io",
-//     favorite_iceCream: "Chocolate"
-//   });
+app.get('/api/profile', function profile_show(req, res){
+  res.json({
+    name: "Sol",
+    class: "WDI 33",
+    location: "San Francisco, CA",
+    hobbies: ["arts", "swimming"],
+    github_url: "https://www.github.com/Sol1323",
+    portfolio_url: "https://www.github.com/Sol1323/Sol1323.github.io",
+    favorite_iceCream: "Chocolate"
+  });
+});
 
 /*
  * JSON API Endpoints
  */
 
-// app.get('/api', function api_index(req, res) {
-//   // TODO: Document all your api endpoints below
-//   res.json({
-//     woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
-//     message: "Welcome to my personal api! Here's what you need to know!",
-//     documentationUrl: "https://github.com/Sol1323/express-personal-api/README.md", // CHANGE ME
-//     baseUrl: "http://aqueous-bayou-93408.herokuapp.com", // CHANGE ME
-//     endpoints: [
-//       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-//       {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
-//       {method: "GET", path: "/api/artists", description: "Get all artist"} // CHANGE ME
-//       {method: "GET", path: "/api/artworks", description: } // CHANGE ME
-//     ]
-//   })
-// });
+ app.get('/api', function api_index(req, res) {
+   // TODO: Document all your api endpoints below
+   res.json({
+     woopsIForgotToDocumentAllMyEndpoints: false, // CHANGE ME ;)
+     message: "Welcome to my personal api! Here's what you need to know!",
+     documentationUrl: "https://github.com/Sol1323/express-personal-api/README.md", // CHANGE ME
+     baseUrl: "http://aqueous-bayou-93408.herokuapp.com", // CHANGE ME
+     endpoints: [
+       {method: "GET", path: "/api", description: "Describes all available endpoints"},
+       {method: "GET", path: "/api/profile", description: "About me"}, // CHANGE ME
+       {method: "GET", path: "/api/artists", description: "Get all artist"}, // CHANGE ME
+       {method: "GET", path: "/api/artworks", description: "Get all artworks"} // CHANGE ME
+     ]
+   })
+ });
 
 // get all artists
 app.get('/api/artists', function (req, res) {
@@ -94,7 +93,9 @@ app.get('/api/artists', function (req, res) {
 
 // get one artist
 app.get('/api/artists/:id', function (req, res) {
-  db.Artists.findOne({_id: req.params._id }, function(err, data) {
+  var artistId = req.params.id;
+  db.Artist.findOne({_id: artistId}, function(err, data) {
+    if (err) { return console.log("Error: " + err); }
     res.json(data);
   });
 });
@@ -134,13 +135,14 @@ app.post('/api/artists', function (req, res) {
   });
 });
 
+
 // delete artist
 app.delete('/api/artists/:id', function (req, res) {
   // get book id from url params (`req.params`)
   console.log('artists delete', req.params);
   var artistId = req.params.id;
-  // find the index of the book we want to remove
-  db.Book.findOneAndRemove({ _id: artistId }, function (err, deletedArtist) {
+  // find the index of the artist we want to remove
+  db.Artist.findOneAndRemove({ _id: artistId }, function (err, deletedArtist) {
     res.json(deletedArtist);
   });
 });

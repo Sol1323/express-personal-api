@@ -8,3 +8,16 @@
   margin-top: 100px;
   text-align: center;
 }*/
+
+body {
+background-image: url("https://hammer.ucla.edu/fileadmin/_processed_/csm_BontecouDetail001_4b8716ab86.jpg");
+
+}
+
+.container {
+background-color: rgba(255,255,255,.5);
+}
+
+h1 {
+font-family: 'Titillium Web', sans-serif;
+}

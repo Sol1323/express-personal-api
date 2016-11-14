@@ -72,7 +72,7 @@ function newArtistSuccess(json) {
   $('#newArtistForm input').val('');
   allArtists.push(json);
   render();
-  
+
 }
 
 
@@ -86,7 +86,7 @@ function deleteArtistSuccess(json) {
   var artistId = artist._id;
   console.log('delete artist', artistId);
   // find the artist with the correct ID and remove it from our allBooks array
-  for(var index = 0; index < allartists.length; index++) {
+  for(var index = 0; index < allArtists.length; index++) {
     if(allArtists[index]._id === artistId) {
       allArtists.splice(index, 1);
       break;  // we found our artist - no reason to keep searching (this is why we didn't use forEach)
@@ -99,20 +99,3 @@ function deleteArtistError() {
   console.log('deleteartist error!');
 }
 });
-
-// function newCharacterSuccess(json) {
-//   var book = json;
-//   var bookId = book._id;
-//   // find the book with the correct ID and update it
-//   for(var index = 0; index < allBooks.length; index++) {
-//     if(allBooks[index]._id === bookId) {
-//       allBooks[index] = book;
-//       break;  // we found our book - no reason to keep searching (this is why we didn't use forEach)
-//     }
-  // }
-//   render();
-// }
-//
-// function newCharacterError() {
-//   console.log('adding new character error!');
-// }
